@@ -8,33 +8,39 @@ const perguntas = [
     {
         enunciado: [ 
         "Você costuma usar várias vezes inteligência artificial?"
-        alternativas: Sim  Não 
+        alternativas: [
+        "Sim",  
+        "Não",
     },
     {
         enunciado: "A IA pode ser usada para otimizar processos industriais?"
         alternativas: [
-            sim não 
+            "sim", 
+            "não", 
         ],
     },
     {
         enunciado: 
         "Existem preocupações éticas sobre o uso de IA?"
         alternativas: [
-            sim não 
+            "sim", 
+            "não", 
         ],
     };
     {
         enunciado: 
         "A IA pode aprender com falhas para melhorar sua performance?"
         alternativas: [
-            sim não
+            "sim", 
+            "não",
         ],
     },
     {
         enunciado:
         "voce costuma usar muitas vezes IA?"
         alternativas: [
-            sim não
+            "sim",
+             "não",
              ],
     },
     {
