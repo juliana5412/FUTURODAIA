@@ -43,6 +43,17 @@ const perguntas = [
              "não",
              ],
     },
-    {
+    .
+];
+
+let atual = 0;
+let perguntaAtual = perguntas[atual];
+caixaPerguntas.textContent = perguntaAtual.enunciado;
+mostraAlternarivas();
+}
+
+function mostraAlternarivas() {
+    for (const alternativa of perguntaAtual.alternativas) {
+        const botaoAlternativa
 
 
