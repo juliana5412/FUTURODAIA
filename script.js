@@ -13,11 +13,11 @@ const perguntas = [
         alternativas: ["Sim", "Não"]
     },
     {
-        enunciado: "Jogos de videogame usam IA para tornar inimigos mais inteligentes?",
+        enunciado: "A IA pode aprender com falhas para mellhorar sua performance?",
         alternativas: ["Sim", "Não"]
     },
     {
-        enunciado: "IA pode clonar vozes humanas com alta precisão?",
+        enunciado: "Existem preocupações éticas sobre o uso da IA?",
         alternativas: ["Sim", "Não"]
     }
 ];
