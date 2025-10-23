@@ -1,8 +1,6 @@
-const caixaPrincipal = document.querySelector(".caixa-principal");
 const caixaPerguntas = document.querySelector(".caixa-perguntas");
-const caixaAlternativas = document.querySelector(".caixa-alternativas");
-const caixaResultado = document.querySelector(".caixa-resultado");
 const textoResultado = document.querySelector(".texto-resultado");
+const botaoFinalizar = document.getElementById("botaoFinalizar");
 
 const perguntas = [
     {
@@ -27,46 +25,67 @@ const perguntas = [
     }
 ];
 
-let atual = 0; // índice da pergunta atual
-let perguntaAtual;
+let respostas = {}; // Guarda as respostas do usuário
 
-// Função para mostrar a pergunta atual
-function mostraPergunta() {
-    caixaAlternativas.innerHTML = ""; // limpa as alternativas antigas
+// Mostra todas as perguntas na tela
+function mostrarPerguntas() {
+    perguntas.forEach((pergunta, index) => {
+        const bloco = document.createElement("div");
+        bloco.classList.add("bloco-pergunta");
 
-    if (atual >= perguntas.length) {
-        mostraResultado();
+        const titulo = document.createElement("p");
+        titulo.textContent = `${index + 1}. ${pergunta.enunciado}`;
+        bloco.appendChild(titulo);
+
+        const botoes = document.createElement("div");
+        botoes.classList.add("botoes-alternativas");
+
+        pergunta.alternativas.forEach(alternativa => {
+            const botao = document.createElement("button");
+            botao.textContent = alternativa;
+
+            botao.addEventListener("click", () => {
+                // Remove seleção anterior da mesma pergunta
+                const botoesMesmaPergunta = botoes.querySelectorAll("button");
+                botoesMesmaPergunta.forEach(btn => btn.classList.remove("selecionado"));
+                botao.classList.add("selecionado");
+
+                // Salva a resposta escolhida
+                respostas[index] = alternativa;
+            });
+
+            botoes.appendChild(botao);
+        });
+
+        bloco.appendChild(botoes);
+        caixaPerguntas.appendChild(bloco);
+    });
+}
+
+// Exibe o resultado final
+function finalizarQuiz() {
+    if (Object.keys(respostas).length < perguntas.length) {
+        textoResultado.textContent = "⚠️ Responda todas as perguntas antes de finalizar!";
+        textoResultado.style.color = "red";
         return;
     }
 
-    perguntaAtual = perguntas[atual];
-    caixaPerguntas.textContent = perguntaAtual.enunciado;
+    let sim = Object.values(respostas).filter(r => r === "Sim").length;
+    let nao = perguntas.length - sim;
 
-    mostraAlternativas();
-}
+    textoResultado.style.color = "black";
 
-// Função para mostrar as alternativas
-function mostraAlternativas() {
-    for (const alternativa of perguntaAtual.alternativas) {
-        const botaoAlternativa = document.createElement("button");
-        botaoAlternativa.textContent = alternativa;
-        botaoAlternativa.classList.add("botao-alternativa");
-
-        botaoAlternativa.addEventListener("click", () => {
-            atual++;
-            mostraPergunta();
-        });
-
-        caixaAlternativas.appendChild(botaoAlternativa);
+    if (sim > nao) {
+        textoResultado.textContent = `Você é uma pessoa otimista sobre a IA! (${sim} respostas "Sim" e ${nao} "Não") 🚀`;
+    } else if (nao > sim) {
+        textoResultado.textContent = `Você tem uma visão mais cautelosa sobre a IA. (${sim} "Sim" e ${nao} "Não") 🤖`;
+    } else {
+        textoResultado.textContent = `Você está equilibrado entre os dois lados da IA! (${sim} "Sim" e ${nao} "Não") ⚖️`;
     }
 }
 
-// Função para mostrar o resultado final
-function mostraResultado() {
-    caixaPerguntas.textContent = "Fim do questionário!";
-    caixaAlternativas.innerHTML = "";
-    textoResultado.textContent = "Obrigado por participar! Suas respostas ajudarão a moldar o futuro da IA.";
-}
+// Eventos
+botaoFinalizar.addEventListener("click", finalizarQuiz);
 
-// Inicia o quiz
-mostraPergunta();
+// Inicializa o questionário
+mostrarPerguntas();
