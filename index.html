@@ -11,64 +11,14 @@
     <div class="caixa-principal">
         <h1>Você decide o futuro da IA</h1>
 
-        <div class="caixa-perguntas">
-            <p id="pergunta">Qual é o seu maior medo em relação à IA?</p>
-        </div>
-
-        <div class="caixa-alternativas">
-            <button class="alternativa" data-resposta="A">A) IA roubando empregos</button>
-            <button class="alternativa" data-resposta="B">B) IA superando os humanos</button>
-            <button class="alternativa" data-resposta="C">C) IA se tornando uma ameaça para a humanidade</button>
-            <button class="alternativa" data-resposta="D">D) IA sem regulamentação</button>
-        </div>
+        <div class="caixa-perguntas"></div>
 
         <div class="caixa-resultado">
-            <p class="texto-resultado">Escolha uma alternativa para ver o resultado.</p>
+            <p class="texto-resultado"></p>
         </div>
     </div>
 
     <script src="script.js"></script>
-    <script>
-        // Definir as variáveis para os elementos da página
-        const caixaPrincipal = document.querySelector(".caixa-principal");
-        const caixaPerguntas = document.querySelector(".caixa-perguntas");
-        const caixaAlternativas = document.querySelector(".caixa-alternativas");
-        const caixaResultado = document.querySelector(".caixa-resultado");
-        const textoResultado = document.querySelector(".texto-resultado");
-        const alternativas = document.querySelectorAll(".alternativa");
-
-        // Função para exibir o resultado baseado na escolha do usuário
-        function exibirResultado(resposta) {
-            let resultadoTexto = "";
-
-            switch (resposta) {
-                case "A":
-                    resultadoTexto = "Você teme a perda de empregos, algo que é uma preocupação real em muitos setores. A IA pode automatizar diversas funções, mas também pode gerar novas oportunidades.";
-                    break;
-                case "B":
-                    resultadoTexto = "A ideia de IA superando os humanos é um cenário de ficção científica, mas é importante que continuemos a monitorar o avanço da tecnologia para garantir que não nos tornemos obsoletos.";
-                    break;
-                case "C":
-                    resultadoTexto = "A IA pode ser uma ameaça em mãos erradas. Por isso, é essencial que desenvolvamos sistemas de segurança e regulamentação robustos para garantir que a tecnologia seja usada com responsabilidade.";
-                    break;
-                case "D":
-                    resultadoTexto = "A falta de regulamentação da IA é um grande risco. Precisamos de políticas claras e internacionais para garantir que os avanços da IA beneficiem a sociedade de forma justa e segura.";
-                    break;
-                default:
-                    resultadoTexto = "Escolha uma alternativa para ver o resultado.";
-            }
-
-            textoResultado.textContent = resultadoTexto;
-        }
-
-        // Adicionar o evento de clique para cada alternativa
-        alternativas.forEach(button => {
-            button.addEventListener("click", (event) => {
-                const respostaEscolhida = event.target.getAttribute("data-resposta");
-                exibirResultado(respostaEscolhida);
-            });
-        });
-    </script>
 
 </body>
 </html>
