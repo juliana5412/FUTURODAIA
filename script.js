@@ -1,91 +1,58 @@
-const caixaPerguntas = document.querySelector(".caixa-perguntas");
+const caixaEnunciado = document.querySelector(".caixa-enunciado");
+const caixaAlternativas = document.querySelector(".caixa-alternativas");
+const caixaResultado = document.querySelector(".caixa-resultado");
 const textoResultado = document.querySelector(".texto-resultado");
-const botaoFinalizar = document.getElementById("botaoFinalizar");
 
 const perguntas = [
     {
-        enunciado: "Você costuma usar várias vezes inteligência artificial?",
+        enunciado: "A IA vai roubar todos os empregos humanos no futuro?",
         alternativas: ["Sim", "Não"]
     },
     {
-        enunciado: "A IA pode ser usada para otimizar processos industriais?",
+        enunciado: "A IA é sempre 100% segura e impossível de hackear?",
         alternativas: ["Sim", "Não"]
     },
     {
-        enunciado: "Existem preocupações éticas sobre o uso de IA?",
+        enunciado: "Jogos de videogame usam IA para tornar inimigos mais inteligentes?",
         alternativas: ["Sim", "Não"]
     },
     {
-        enunciado: "A IA pode aprender com falhas para melhorar sua performance?",
-        alternativas: ["Sim", "Não"]
-    },
-    {
-        enunciado: "Você acredita que a IA pode ajudar no futuro da humanidade?",
+        enunciado: "IA pode clonar vozes humanas com alta precisão?",
         alternativas: ["Sim", "Não"]
     }
 ];
 
-let respostas = {}; // Guarda as respostas do usuário
+let atual = 0;
+let historiaFinal = "";
 
-// Mostra todas as perguntas na tela
-function mostrarPerguntas() {
-    perguntas.forEach((pergunta, index) => {
-        const bloco = document.createElement("div");
-        bloco.classList.add("bloco-pergunta");
-
-        const titulo = document.createElement("p");
-        titulo.textContent = `${index + 1}. ${pergunta.enunciado}`;
-        bloco.appendChild(titulo);
-
-        const botoes = document.createElement("div");
-        botoes.classList.add("botoes-alternativas");
-
-        pergunta.alternativas.forEach(alternativa => {
-            const botao = document.createElement("button");
-            botao.textContent = alternativa;
-
-            botao.addEventListener("click", () => {
-                // Remove seleção anterior da mesma pergunta
-                const botoesMesmaPergunta = botoes.querySelectorAll("button");
-                botoesMesmaPergunta.forEach(btn => btn.classList.remove("selecionado"));
-                botao.classList.add("selecionado");
-
-                // Salva a resposta escolhida
-                respostas[index] = alternativa;
-            });
-
-            botoes.appendChild(botao);
-        });
-
-        bloco.appendChild(botoes);
-        caixaPerguntas.appendChild(bloco);
-    });
-}
-
-// Exibe o resultado final
-function finalizarQuiz() {
-    if (Object.keys(respostas).length < perguntas.length) {
-        textoResultado.textContent = "⚠️ Responda todas as perguntas antes de finalizar!";
-        textoResultado.style.color = "red";
+function mostraPergunta() {
+    if (atual >= perguntas.length) {
+        mostraResultado();
         return;
     }
 
-    let sim = Object.values(respostas).filter(r => r === "Sim").length;
-    let nao = perguntas.length - sim;
+    const perguntaAtual = perguntas[atual];
+    caixaEnunciado.textContent = perguntaAtual.enunciado;
+    caixaAlternativas.innerHTML = ""; // limpa alternativas anteriores
 
-    textoResultado.style.color = "black";
-
-    if (sim > nao) {
-        textoResultado.textContent = `Você é uma pessoa otimista sobre a IA! (${sim} respostas "Sim" e ${nao} "Não") 🚀`;
-    } else if (nao > sim) {
-        textoResultado.textContent = `Você tem uma visão mais cautelosa sobre a IA. (${sim} "Sim" e ${nao} "Não") 🤖`;
-    } else {
-        textoResultado.textContent = `Você está equilibrado entre os dois lados da IA! (${sim} "Sim" e ${nao} "Não") ⚖️`;
+    for (const alternativa of perguntaAtual.alternativas) {
+        const botaoAlternativa = document.createElement("button");
+        botaoAlternativa.textContent = alternativa;
+        botaoAlternativa.addEventListener("click", () => respostaSelecionada(alternativa));
+        caixaAlternativas.appendChild(botaoAlternativa);
     }
 }
 
-// Eventos
-botaoFinalizar.addEventListener("click", finalizarQuiz);
+function respostaSelecionada(opcaoSelecionada) {
+    historiaFinal += `Você respondeu "${opcaoSelecionada}" para a pergunta ${atual + 1}. `;
+    atual++;
+    mostraPergunta();
+}
 
-// Inicializa o questionário
-mostrarPerguntas();
+function mostraResultado() {
+    caixaEnunciado.textContent = "Em 2049...";
+    textoResultado.textContent = historiaFinal;
+    caixaAlternativas.innerHTML = "";
+}
+
+mostraPergunta();
